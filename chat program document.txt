@@ -1,5 +1,0 @@
-1) 최초 접속 방법: 언제나 client가 먼저 server에 접속 요청을 한다.
-
-2) application model은 client-server model이다. server가 client들 간의 연결을 확인 후 peer to peer구조로 변경할 수 있어도 그렇게 하지 않는다. 항상 모든 메시지는 server를 통해 전달된다.
-
-3) 메시지 전달 방법: 한 메시지 덩어리는 256byte로 하며, 만약 초과할 시, 여러 덩어리로 나뉘어서 보내어진다.
