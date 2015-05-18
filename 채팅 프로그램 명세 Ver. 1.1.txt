@@ -1,0 +1,59 @@
+한국항공대학교 15' 컴퓨터네트워크
+7조 김경석, 조동원, 신동우, 김창섭
+
+
+
+
+
+채팅 프로그램 명세(Ver. 1.1 오후 9:00 2015-05-18)
+
+
+
+
+
+1. Transport Layer의 TCP를 이용
+
+2. Server와 Client의 메시지 교환은 ASCII표에 해당하는 문자만 가능
+
+3. Server가 Client A와 Client B의 1대1 문자열 통신을 지원해주는 구조
+
+4. Client Process 두 개가 랜덤 채팅을 진행하게 된다.
+
+5. 만약 채팅 중인 두 Client 중 한 Client가 접속을 종료할 시, 반대편 Client 역시 Server에서 강제로 접속을 끊는다.
+
+6. 언제나 Client측이 Server에 접속을 요청하게 된다. 반대 방향의 경우는 존재하지 않는다.
+
+7. 전달 message는 '\n'으로 한 단위를 구분한다. 
+
+8. 전달 message는 Server를 통해서만 전달된다.
+
+
+
+
+
+Server.
+
+- 두 Client의 TCP 접속을 기다린다.
+
+- 소켓 연결 완료 후, 해당 Client에게 접속 환영 메시지 출력
+
+- 두 Client가 접속 완료시 양측에 채팅 시작 가능 메시지 출력
+
+- 한 Client가 접속을 종료시 반대편에게 "Bye Bye" 메시지 출력 후 강제 접속 종료
+
+- 처음 상태로 복귀
+
+
+
+
+
+Client.
+
+- Server로 TCP 접속을 시도한다.
+
+- 채팅 시작 가능 메시지 확인 후 메시지 전송 시작
+
+- if(본 Client가 접속을 먼저 종료하는 경우)
+	Client Process 종료
+  else
+	"Bye Bye" 메시지 확인 후 Process 종료 
