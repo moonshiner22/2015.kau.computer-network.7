@@ -1,0 +1,5 @@
+오후 10:38 2015-06-05
+명세 2.0 버전인
+chatting_client.c
+chatting_server.c
+파일 업로드 완료
