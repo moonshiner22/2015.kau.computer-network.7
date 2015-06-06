@@ -7,7 +7,7 @@
 #include <time.h>
 
 #define RCVBUFSIZE 32
-#define ENDMSG "@ENDM"
+#define ENDMSG " 님께서 퇴장하셨습니다."
 #define LOGOUT "quit"
 #define CLTEND 0x05
 #define OUTMSG " 님께서 퇴장하셨습니다."
@@ -97,7 +97,7 @@ int main(int argc, char * * argv)
 		      
 		      // 프로그램 종료
 		      if(strcmp(ENDMSG, m_message.m_buffer) == 0) {
-				printf("server is destroyed\n");
+				printf("서버가 종료되었습니다\n");
 				break;
 		      }
 
@@ -122,20 +122,3 @@ int main(int argc, char * * argv)
 	close(sock);
 	return 0;
 }
-/*
-void MyMemorySet( void *vp, unsigned char ucPad, unsigned int uiSize )
-{
-  while( uiSize != 0 )
-  {
-    *( ( unsigned char * )vp + uiSize ) = ucPad;
-    --uiSize;
-    vp = ( unsigned char * )vp + 1;  // Void Pointer는 값은 자유로 가르킬 수 있지만, 연산이 불가능하므로 Casting.
-  }
-  return;
-}
-
-void MyBZero( void *vp, unsigned int uiSize )
-{
-  MyMemorySet( vp, 0x00, uiSize );
-  return;
-}*/

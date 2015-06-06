@@ -11,7 +11,7 @@
 #include <time.h>
 
 #define RCVBUFSIZE 32
-#define ENDMSG "@ENDM"
+#define ENDMSG " 님께서 퇴장하셨습니다."
 #define LOGOUT "quit"
 #define CLTEND 0x05
 #define OUTMSG " 님께서 퇴장하셨습니다."
@@ -90,47 +90,47 @@ int main()
 	//본격적인 서버 프로그램의 구조가 시작됨.
   	while(1)
   	{
-    		FD_ZERO(&status);   //변수 초기화(0으로)
-    		FD_SET(0, &status);   //0번째 값을 1로 바꾼다(stdin) -> 키보드 감지. 0번째 파일, 즉 표준입력(키보드)의 반응을 받는다.
-    		FD_SET(servSock, &status);   //랑데부 소켓(외부의 정보만을 받는 소켓)과 키보드만 감지한다.
+		FD_ZERO(&status);   //변수 초기화(0으로)
+		FD_SET(0, &status);   //0번째 값을 1로 바꾼다(stdin) -> 키보드 감지. 0번째 파일, 즉 표준입력(키보드)의 반응을 받는다.
+    	FD_SET(servSock, &status);   //랑데부 소켓(외부의 정보만을 받는 소켓)과 키보드만 감지한다.
 
 		//현 시점에서 존재하는 클라이언트 소켓을 파악하고 select()의 감시대상이 되도록 세팅해준다.
    	 	for(i = 0; i < uiUser; i++) {
-      			FD_SET(clntSock[i], &status);
+      		FD_SET(clntSock[i], &status);
 			if(clntSock[i] >= iMaxSock) iMaxSock = clntSock[i] + 1;
 		}
-    
-    		iRet = select(iMaxSock, &status, 0, 0, 0);
+   
+    	iRet = select(iMaxSock, &status, 0, 0, 0);
 		if(iRet < 0) {		//셀렉트 함수가 실패할 경우 
-      			fprintf(stderr, "errer: select()\n" );
-      			strcpy(m_message.m_buffer, "error: 우server is destroyed, sorry, good bye");		//버퍼에 에러메시지 저장
+      		fprintf(stderr, "errer: select()\n" );
+      		strcpy(m_message.m_buffer, "error: 우server is destroyed, sorry, good bye");		//버퍼에 에러메시지 저장
       
 			// 접속한 클라이언트들에게 전송.
-     			for(iCount = 0; iCount < uiUser; iCount++) write(clntSock[iCount], &m_message, sizeof(m_message));
+     		for(iCount = 0; iCount < uiUser; iCount++) write(clntSock[iCount], &m_message, sizeof(m_message));
 
 			//클라이언트에게 "/q"를 보내는 부분이었음
 
 			// 접속한 클라이언트들에게 전송.
-      			for(iCount = 0; iCount < uiUser; iCount++) write(clntSock[iCount], &m_message, sizeof(m_message));
+      		for(iCount = 0; iCount < uiUser; iCount++) write(clntSock[iCount], &m_message, sizeof(m_message));
 
 			break;
-    		}
+    	}
     
-    		if(FD_ISSET(servSock, &status) == 1)   //새로운 클라이언트의 접속
-    		{
+    	if(FD_ISSET(servSock, &status) == 1)   //새로운 클라이언트의 접속
+    	{
 			tempSock = accept(servSock, (struct sockaddr *)&echoClntAddr, &clntLen);
-		      	// 들어오는 사람의 IP 및 정보가 요구되므로 2번째 인자가 클라이언트 정보.
-		     	// accept는 구 자료형 형식의 함수이기 때문에 강제 캐스팅
-		      	// clntLen : 크기.
-		      	// accept에서는 접속이 될 때 까지 그대로 대기상태가 된다. 블로킹 함수.
-		      	// servSock : 랑데부 소켓(외부에서 받아들이기만 한다)
-		      	// clntSock : 커뮤니케이션 소켓. 내용을 처리할 때 쓰인다.
+		     // 들어오는 사람의 IP 및 정보가 요구되므로 2번째 인자가 클라이언트 정보.
+		     // accept는 구 자료형 형식의 함수이기 때문에 강제 캐스팅
+		     // clntLen : 크기.
+		     // accept에서는 접속이 될 때 까지 그대로 대기상태가 된다. 블로킹 함수.
+		     // servSock : 랑데부 소켓(외부에서 받아들이기만 한다)
+		     // clntSock : 커뮤니케이션 소켓. 내용을 처리할 때 쓰인다.
   
-		      	printf("socket number : %d\n", tempSock);
-		     	if(tempSock < 0) {
+		    printf("socket number : %d\n", tempSock);
+		    if(tempSock < 0) {
 				fprintf(stderr, "error: accept()\n");
 				continue;
-		      	}
+		     }
     
       			// Network to ASCII Code(수치로만 되어있는 IP주소를 사용자가 알아볼 수 있게 문자열로 바꾸어준다.)
 			printf("클라이언트 접속 IP : %s\n", inet_ntoa(echoClntAddr.sin_addr));
@@ -157,14 +157,14 @@ int main()
 		      	strftime(m_message.m_time, 26, "%Y-%m-%d %H:%M:%S", localtime(&stTempTime));
 		      
 		      	if(m_message.m_buffer[0] == CLTEND) {
-				strcpy(m_message.m_buffer, ENDMSG);
-				//클라이언트들에게 전송
-				for(iCount = 0; iCount < uiUser; iCount++) write(clntSock[iCount], &m_message, sizeof(m_message));
-				break;
-		      	} else {
-				//클라이언트들에게 전송
+					strcpy(m_message.m_buffer, ENDMSG);	//클라이언트들에게 전송
+					
+					for(iCount = 0; iCount < uiUser; iCount++) write(clntSock[iCount], &m_message, sizeof(m_message));
+					break;
+		      	}
+				else {		//클라이언트들에게 전송
 		     		for(iCount = 0; iCount < uiUser; iCount++) write(clntSock[iCount], &m_message, sizeof(m_message));
-			}
+				}
     		}
 		else   //그 외의 일반적인 경우의 작동
    		{
@@ -172,22 +172,22 @@ int main()
       			{
         			if(FD_ISSET(clntSock[iCount], &status) == 1)  //클라이언트의 변화를 감지할 경우
         			{
-				  	iRet = read(clntSock[iCount], &m_message, sizeof(ucBuffer) - 1);
-				  	// 커뮤니케이션 소켓으로부터 값을 읽어온다.
-				  	// read함수는 글자 수를 반환하므로 iRet에 글자수를 임시로 저장한다.
+				  		iRet = read(clntSock[iCount], &m_message, sizeof(ucBuffer) - 1);
+				  		// 커뮤니케이션 소켓으로부터 값을 읽어온다.
+				  		// read함수는 글자 수를 반환하므로 iRet에 글자수를 임시로 저장한다.
 			      
-				  	ucBuffer[ iRet ] = 0;  // 마지막 글자는 \n(개행문자)이므로 NULL로 처리한다.
+						ucBuffer[ iRet ] = 0;  // 마지막 글자는 \n(개행문자)이므로 NULL로 처리한다.
 
           				if(iRet)   //클라이언트에서 무언가를 읽음
-					{
+						{
 						//메시지가 LOGOUT(이 경우 "quit")인 경우
-					  	if(strcmp(LOGOUT, m_message.m_buffer) == 0)
-					   	{
-							//CLTEND를 해당 클라이언트에게 보낸다.
+					  		if(strcmp(LOGOUT, m_message.m_buffer) == 0)
+							{
+								//CLTEND를 해당 클라이언트에게 보낸다.
 						      	m_message.m_buffer[0] = CLTEND;
 						     	write(clntSock[iCount], &m_message, sizeof(m_message));
 						      
-							//해당 통신 소켓을 닫는다.
+								//해당 통신 소켓을 닫는다.
 						      	clntSock[iCount] = clntSock[uiUser-1];
 						      	close(clntSock[iCount]);
 						      
