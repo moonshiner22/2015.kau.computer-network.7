@@ -1,3 +1,13 @@
+오후 4:29 2015-06-06
+기존의 코드인
+chatting_client.c와
+chatting_server.c를 수정하여
+chatting_client(change 1).c
+chatting_server(change 1).c를 추가하였음
+변경 사항:
+chatting_server.c 속 함수 atoi() 삭제
+chatting_server.c 속 함수 SendToStringToClient()함수를 sendMessageToClient()로 이름 변경
+
 오후 10:38 2015-06-05
 명세 2.0 버전인
 chatting_client.c
