@@ -5,8 +5,8 @@ chatting_server(ver 3.3).c
 
 - chatting_server(ver 3.3).c의 수정내용
 1. sendMessageToClient() 함수 삭제
-2. 서버가 LOGOUT("quit"메시지)을 시도할 시 모든 클라이언트의 접속을 끉고, 서버 자신도 프로세스를 종료한다.
-3. 클라이언트가 사용하는 비속어는 서버가 볼 수 있지만, 서버는 이를 순화시켜 방송한다.
+2. 서버가 LOGOUT("quit"메시지)을 시도할 시 모든 클라이언트의 접속을 끊고, 서버 자신도 프로세스를 종료한다.
+3. 클라이언트가 사용하는 비속어는 서버가 볼 수 있지만, 서버는 이를 순화시켜 다른 클라이언트(User)에게 전송한다.
 4. 비속어 처리를 위한 searchAndDeleteScolding()함수 신규 추가
 5. #define 매크로 RCVBUFSIZE 제거
 6. 서버는 자신만의 특수 명령어인 "//currentconnection"을 사용하면 접속중인 클라이언트의 수를 알 수 있다. 물론 서버 프로그램 화면에만 나타난다.
